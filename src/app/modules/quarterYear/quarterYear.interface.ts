@@ -21,7 +21,7 @@ export type TQuarter = {
   code: TQuarterCode
   startMonth: TMonths
   endMonth: TMonths
-};
+}
 
 export type TQuarterYearNameCodeMapper = {
   [key: string]: string
