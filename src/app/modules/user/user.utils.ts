@@ -20,7 +20,7 @@ const findLastUserId = async () => {
   return lastUser?.id ? lastUser.id : undefined
 }
 
-export const generateStudentId = async (payload: TQuarter) => {
+export const generateUserId = async (payload: TQuarter) => {
   // first time 0000
   //0001  => 1
   let currentId = (0).toString() //default value 0000

@@ -52,6 +52,10 @@ const userSchema = new Schema<TUser>(
     address: {
       type: String,
     },
+    quarterYear: {
+      type: Schema.Types.ObjectId,
+      ref: 'QuarterYear',
+    },
     isDeleted: {
       type: Boolean,
       default: false,

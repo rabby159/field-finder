@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 export type UserName = {
     firstName: string
     middleName?: string
@@ -11,6 +13,7 @@ export type TUser = {
     role :  'user' | 'admin',
     name: UserName,
     email: string,
-    address: string
-    isDeleted: boolean
+    address: string,
+    quarterYear: Types.ObjectId
+    isDeleted: boolean,
 }
