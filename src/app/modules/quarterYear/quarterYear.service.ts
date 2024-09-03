@@ -12,6 +12,6 @@ const createQuarterYearIntoDB = async (payload: TQuarter) => {
   return result
 }
 
-export const AcademicSemesterServices = {
+export const QuarterYearServices = {
   createQuarterYearIntoDB,
 }
