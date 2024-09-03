@@ -11,7 +11,6 @@ export type TUser = {
     role :  'user' | 'admin',
     name: UserName,
     email: string,
-    presentAddress: string
-    permanentAddress: string
+    Address: string
     isDeleted: boolean
 }
