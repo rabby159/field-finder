@@ -1,8 +1,8 @@
 import { TQuarter } from '../quarterYear/quarterYear.interface'
-import { User } from './users.model'
+import { Users } from './users.model'
 
 const findLastUserId = async () => {
-  const lastUser = await User.findOne(
+  const lastUser = await Users.findOne(
     {
       role: 'user',
     },

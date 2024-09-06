@@ -1,29 +1,10 @@
 import { model, Schema } from 'mongoose'
-import { TUser, UserName } from './users.interface'
-import { UserRole } from './users.constant'
 import config from '../../config'
 import bcrypt from 'bcrypt'
+import { TUsers } from './users.interface'
+import { UsersRole } from './users.constant'
 
-const userNameSchema = new Schema<UserName>({
-  firstName: {
-    type: String,
-    trim: true,
-    required: [true, 'first name is required'],
-    maxlength: [15, 'first name maximum length is 15'],
-  },
-  middleName: {
-    type: String,
-    trim: true,
-  },
-  lastName: {
-    type: String,
-    trim: true,
-    required: [true, 'last name is required'],
-    maxlength: [15, 'last name maximum length is 15'],
-  },
-})
-
-const userSchema = new Schema<TUser>(
+const usersSchema = new Schema<TUsers>(
   {
     id: {
       type: String,
@@ -40,23 +21,7 @@ const userSchema = new Schema<TUser>(
     },
     role: {
       type: String,
-      enum: UserRole,
-    },
-    name: {
-      type: userNameSchema,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    address: {
-      type: String,
-    },
-    quarterYear: {
-      type: Schema.Types.ObjectId,
-      ref: 'QuarterYear',
+      enum: UsersRole,
     },
     isDeleted: {
       type: Boolean,
@@ -70,7 +35,7 @@ const userSchema = new Schema<TUser>(
   },
 )
 
-userSchema.pre('save', async function (next) {
+usersSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this // doc
   // hashing password and save into DB
@@ -82,9 +47,9 @@ userSchema.pre('save', async function (next) {
 })
 
 // set '' after saving password
-userSchema.post('save', function (doc, next) {
+usersSchema.post('save', function (doc, next) {
   doc.password = ''
   next()
 })
 
-export const User = model<TUser>('User', userSchema)
+export const Users = model<TUsers>('Users', usersSchema)
