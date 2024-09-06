@@ -1,5 +1,5 @@
 import { TQuarter } from '../quarterYear/quarterYear.interface'
-import { User } from './user.model'
+import { User } from './users.model'
 
 const findLastUserId = async () => {
   const lastUser = await User.findOne(
