@@ -1,14 +1,14 @@
 import express from 'express'
 import validatedRequestZod from '../../middlewares/validatedRequestZod'
-import { userValidation } from './users.validation'
-import { UserControllers } from './users.controller'
+import { usersValidation } from './users.validation'
+import { UsersControllers } from './users.controller'
 
 const router = express.Router()
 
 router.post(
   '/create-user',
-  validatedRequestZod(userValidation.usersValidationSchema),
-  UserControllers.createUser,
+  validatedRequestZod(usersValidation.usersValidationSchema),
+  UsersControllers.createUser,
 )
 
 export const UsersRoutes = router

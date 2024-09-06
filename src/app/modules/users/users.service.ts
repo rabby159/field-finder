@@ -11,13 +11,13 @@ import { User } from '../user/user.model'
 
 const createUserIntoDB = async (password: string, payload: TUser) => {
   // create a user object
-  const usersData: Partial<TUsers> = {}
+  const userData: Partial<TUsers> = {}
 
   //if password is not given , use default password
-  usersData.password = password || (config.default_pass as string)
+  userData.password = password || (config.default_pass as string)
 
   //set student role
-  usersData.role = 'user'
+  userData.role = 'user'
 
   // find academic semester info
   const quarterYearFind = await QuarterYear.findById(payload.quarterYear)
@@ -35,10 +35,10 @@ const createUserIntoDB = async (password: string, payload: TUser) => {
     session.startTransaction()
 
     //set  generated id
-    usersData.id = await generateUserId(quarterYearFind)
+    userData.id = await generateUserId(quarterYearFind)
 
     // create a user (transaction-1)
-    const newUsers = await Users.create([usersData], { session })
+    const newUsers = await Users.create([userData], { session })
 
     //create a student
     if (!newUsers.length) {

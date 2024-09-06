@@ -37,10 +37,10 @@ const usersSchema = new Schema<TUsers>(
 
 usersSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this // doc
+  const users = this // doc
   // hashing password and save into DB
-  user.password = await bcrypt.hash(
-    user.password,
+  users.password = await bcrypt.hash(
+    users.password,
     Number(config.bcrypt_salt_rounds),
   )
   next()

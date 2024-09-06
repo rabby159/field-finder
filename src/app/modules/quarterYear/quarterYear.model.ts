@@ -42,7 +42,7 @@ QuarterYearSchema.pre('save', async function (next) {
     name: this.name,
   })
 
-  if (isQuarterExists) {
+  if (!isQuarterExists) {
     throw new AppError(
       httpStatus.NOT_FOUND,
       'This quarter is already exists. Thank you',

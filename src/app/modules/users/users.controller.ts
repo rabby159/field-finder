@@ -4,10 +4,10 @@ import httpStatus from 'http-status'
 import { UsersServices } from './users.service'
 
 const createUser = catchAsync(async (req, res) => {
-  const { password, user: userData } = req.body
+  const { password, user } = req.body
 
   //will we call services function to send this data
-  const result = await UsersServices.createUserIntoDB(password, userData)
+  const result = await UsersServices.createUserIntoDB(password, user)
 
   //send response
   sendResponse(res, {
@@ -18,6 +18,6 @@ const createUser = catchAsync(async (req, res) => {
   })
 })
 
-export const UserControllers = {
+export const UsersControllers = {
   createUser,
 }
