@@ -1,6 +1,8 @@
 import { model, Schema } from 'mongoose'
 import { TUser, UserName } from './user.interface'
 import { UserRole } from './user.constant'
+import config from '../../config'
+import bcrypt from 'bcrypt'
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -67,5 +69,22 @@ const userSchema = new Schema<TUser>(
     },
   },
 )
+
+userSchema.pre('save', async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this // doc
+  // hashing password and save into DB
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  )
+  next()
+})
+
+// set '' after saving password
+userSchema.post('save', function (doc, next) {
+  doc.password = ''
+  next()
+})
 
 export const User = model<TUser>('User', userSchema)
