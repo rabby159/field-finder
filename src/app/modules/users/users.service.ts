@@ -7,6 +7,7 @@ import httpStatus from 'http-status'
 import { TUsers } from './users.interface'
 import mongoose from 'mongoose'
 import { TUser } from '../user/user.interface'
+import { User } from '../user/user.model'
 
 const createUserIntoDB = async (password: string, payload: TUser) => {
   // create a user object
@@ -19,54 +20,54 @@ const createUserIntoDB = async (password: string, payload: TUser) => {
   usersData.role = 'user'
 
   // find academic semester info
-  const quarterYear = await QuarterYear.findById(payload.quarterYear)
+  const quarterYearFind = await QuarterYear.findById(payload.quarterYear)
 
   // Check if the semester is not null before using it
-  if (!quarterYear) {
+  if (!quarterYearFind) {
     throw new Error('Quarter not found')
   }
 
   //start session
   const session = await mongoose.startSession()
 
-  try{
+  try {
     //start transaction
     session.startTransaction()
 
     //set  generated id
-    payload.id = await generateUserId(quarterYear)
+    usersData.id = await generateUserId(quarterYearFind)
 
     // create a user (transaction-1)
-  const newUsers = await Users.create([payload])
+    const newUsers = await Users.create([usersData], { session })
 
-  //create a student
-  if (!newUsers.length) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user')
-  }
+    //create a student
+    if (!newUsers.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create users')
+    }
 
-  // set id , _id as user
-  payload.id = newUsers[0].id
-  payload.users = newUsers[0]._id //reference _id
+    // set id , _id as user
+    payload.id = newUsers[0].id
+    payload.users = newUsers[0]._id //reference _id
 
-  // create a user (transaction-2)
-  const newUser = await User.create([payload], { session })
+    // create a user (transaction-2)
+    const newUser = await User.create([payload], { session })
 
-  if (!newUser.length) {
-    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create student')
-  }
+    if (!newUser.length) {
+      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user')
+    }
 
-  await session.commitTransaction()
-  await session.endSession()
+    await session.commitTransaction()
+    await session.endSession()
 
-  return newUser
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  } catch(err){
+    return newUser
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  } catch (err) {
     await session.abortTransaction()
     await session.endSession()
-    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create student')
+    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user test')
   }
 }
 
-export const UserServices = {
+export const UsersServices = {
   createUserIntoDB,
 }

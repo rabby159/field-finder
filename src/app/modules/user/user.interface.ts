@@ -12,6 +12,7 @@ export type TUser = {
   password: string
   name: UserName
   email: string
+  phone: number
   address: string
   quarterYear: Types.ObjectId
   isDeleted: boolean

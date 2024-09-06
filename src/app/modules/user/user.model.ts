@@ -42,6 +42,11 @@ const userSchema = new Schema<TUser, UserModel>(
       required: true,
       unique: true,
     },
+    phone: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
     address: {
       type: String,
     },
@@ -63,24 +68,24 @@ const userSchema = new Schema<TUser, UserModel>(
 
 // virtual
 userSchema.virtual('fullName').get(function () {
-    return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName
-  })
-  
+  return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName
+})
+
 //   // Query Middleware
 //   userSchema.pre('find', function (next) {
 //     this.find({ isDeleted: { $ne: true } })
 //     next()
 //   })
-  
+
 //   userSchema.pre('findOne', function (next) {
 //     this.find({ isDeleted: { $ne: true } })
 //     next()
 //   })
-  
-  userSchema.pre('aggregate', function (next) {
-    this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } })
-    next()
-  })
+
+userSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } })
+  next()
+})
 
 //creating a custom static method
 userSchema.statics.isUserExists = async function (id: string) {
