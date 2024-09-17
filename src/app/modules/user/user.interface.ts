@@ -1,4 +1,4 @@
-import { Model, Types } from 'mongoose'
+import {  Types } from 'mongoose'
 
 export type UserName = {
   firstName: string
@@ -12,13 +12,13 @@ export type TUser = {
   password: string
   name: UserName
   email: string
-  phone: number
+  phone: string
   address: string
   quarterYear: Types.ObjectId
   isDeleted: boolean
 }
 
-export interface UserModel extends Model<TUser> {
-  // eslint-disable-next-line no-unused-vars
-  isUserExists(id: string): Promise<TUser | null>
-}
+// export interface UserModel extends Model<TUser> {
+//   // eslint-disable-next-line no-unused-vars
+//   isUserExists(id: string): Promise<TUser | null>
+// }

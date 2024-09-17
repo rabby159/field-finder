@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose'
 import config from '../../config'
 import bcrypt from 'bcrypt'
 import { TUsers } from './users.interface'
-import { UsersRole } from './users.constant'
+// import { UsersRole } from './users.constant'
 
 const usersSchema = new Schema<TUsers>(
   {
@@ -21,7 +21,7 @@ const usersSchema = new Schema<TUsers>(
     },
     role: {
       type: String,
-      enum: UsersRole,
+      enum: ['user', 'admin'],
     },
     isDeleted: {
       type: Boolean,

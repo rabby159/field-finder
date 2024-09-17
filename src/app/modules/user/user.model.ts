@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { TUser, UserModel, UserName } from './user.interface'
+import { TUser, UserName } from './user.interface'
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
@@ -20,7 +20,7 @@ const userNameSchema = new Schema<UserName>({
   },
 })
 
-const userSchema = new Schema<TUser, UserModel>(
+const userSchema = new Schema<TUser>(
   {
     id: {
       type: String,
@@ -43,7 +43,7 @@ const userSchema = new Schema<TUser, UserModel>(
       unique: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
@@ -88,9 +88,9 @@ userSchema.pre('aggregate', function (next) {
 })
 
 //creating a custom static method
-userSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await User.findOne({ id })
-  return existingUser
-}
+// userSchema.statics.isUserExists = async function (id: string) {
+//   const existingUser = await User.findOne({ id })
+//   return existingUser
+// }
 
-export const User = model<TUser, UserModel>('User', userSchema)
+export const User = model<TUser>('User', userSchema)

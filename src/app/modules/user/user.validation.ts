@@ -18,10 +18,10 @@ const userNameValidationSchema = z.object({
 const createUserValidationSchema = z.object({
   body: z.object({
     password: z.string().max(15),
-    user: z.object({
+    users: z.object({
       name: userNameValidationSchema,
       email: z.string().email('Invalid email address'),
-      phone: z.number().min(1, 'Contact number is required'),
+      phone: z.string().min(1, 'Contact number is required'),
       address: z.string().min(1, 'Address is required'),
       quarterYear: z.string(),
     }),
